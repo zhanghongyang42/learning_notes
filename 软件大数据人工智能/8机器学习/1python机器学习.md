@@ -204,6 +204,62 @@ sns.kdeplot(df[col], label=str(col))
 
 
 
+### 相关系数原理
+
+相关系数主要描述变量之间的线性关系，而相似度（距离）则关注具体数据对象之间的相似程度。
+
+
+
+#### 相关系数
+
+对协方差进行标准化后的指标，取值范围为 \([-1, 1]\)。计算公式为：
+$$
+\rho_{X,Y} = \frac{\text{Cov}(X, Y)}{\sigma_X \cdot \sigma_Y}
+$$
+其中 $\sigma_X$ 和 $\sigma_Y$ 分别为 X和 Y的标准差。
+
+
+
+标准差与原始数据具有相同的量纲，所以除以标准差，就消除了量纲。
+
+实际上，将xy标准化后，求协方差，即是相关系数。
+
+
+
+#### 皮尔逊相关系数
+
+皮尔逊相关系数就是相关系数。
+$$
+r = \frac{\sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum_{i=1}^n (X_i - \bar{X})^2 \sum_{i=1}^n (Y_i - \bar{Y})^2}}
+$$
+
+
+当皮尔逊相关系数接近1时,两个数据成正相关;当皮尔逊相关系数接近-1时,两个数据成负相关;当皮尔逊相关系数接近0时,两个数据没有明显关系.
+
+
+
+#### 斯皮尔曼相关系数
+
+斯皮尔曼等级相关系数（Spearman's Rank Correlation Coefficient）用于衡量两个变量的秩（排序）之间的单调关系。
+
+
+$$
+\rho = 1 - \frac{6 \sum_{i=1}^n d_i^2}{n(n^2 - 1)}
+$$
+
+- $d_i$是第 i 对变量的秩差，即两个变量在排序时的排名差。比如 x1 在x中 排第3， y1 在y中 排第1，则d1就是2。
+- n是样本的数量。
+
+
+
+公式解释：
+
+- **分子部分**：计算所有秩差的平方和，反映了变量之间偏离完美单调关系的程度。
+- **分母部分**：进行标准化，调整样本数量对相关系数的影响。
+- **整体意义**：斯皮尔曼相关系数的值范围是 -1 到 1，值越接近 1 或 -1，表示两个变量之间的单调关系越强。值为 0 时表示没有单调关系。
+
+
+
 ### 特征间相关性分析
 
 0-0.09为没有相关性,0.5-1.0为强相关
@@ -471,8 +527,6 @@ sns.boxplot(x=i,data=df)
 
 
 ##### Isolation Forest
-
-
 
 
 
@@ -3424,70 +3478,163 @@ Mahalanobis distance：又称为数据的协方差距离，是欧氏距离的一
 
 
 
-### PCA 原理
+常见的降维算法包括 ：主成分分析（PCA）、线性判别分析（LDA）
 
 
 
-#### 通俗理解
+### PCA原理
 
-PCA 过程：找到 一 个方向向量（**Vector direction**），把所有的数据都投射到 此向量上时，投射平均均方误差能尽可能地小。
-
-​					方向向量是一个经过原点的向量，可以理解为一个新的坐标轴。投射误差是从特征向量向该方向向量作垂线的长度。
-
-​					直至找到 k个向量，也可称为“主元”向量， 就把数据从 n维降至k维。
+https://www.bilibili.com/video/BV14a4y1a7Gd/?spm_id_from=333.337.search-card.all.click&vd_source=95e4d2371451c9804d5d5d30293ea8c6
 
 
 
-第一个主成分对应于数据中方差最大的方向。
+#### 前置知识 - 协方差
 
-第二个主成分在与第一个主成分正交的平面内，选择方差次大的方向。
+**协方差公式**，两个特征可以计算协方差。
+$$
+\text{Cov}(X, Y) = \frac{1}{n} \sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})
+$$
+协方差可以表示相关性。当协方差为正，XY正相关。当协方差为负，XY负相关。当协方差为0的时候，表示二者无线性关系。
 
-此过程依次进行，每个新的主成分都与之前的主成分正交。
-
-
-
-4555
-
-
+*可以画两条正相关的线，来模拟计算协方差，得到上面的结论。*
 
 
 
+多组变量时，可以用**协方差矩阵**表示：
+$$
+\Sigma =
+\begin{bmatrix}
+\text{Var}(X_1) & \text{Cov}(X_1, X_2) & \cdots & \text{Cov}(X_1, X_n) \\
+\text{Cov}(X_2, X_1) & \text{Var}(X_2) & \cdots & \text{Cov}(X_2, X_n) \\
+\vdots & \vdots & \ddots & \vdots \\
+\text{Cov}(X_n, X_1) & \text{Cov}(X_n, X_2) & \cdots & \text{Var}(X_n)
+\end{bmatrix}
+$$
+
+
+#### 前置知识 - 基变换
+
+单位向量（方向向量）：经过原点的，模为1的向量。用来表示方向。如二维坐标系中（0,1）就是一个单位向量。
+
+基：一组线性无关的向量集合。向量一般为单位向量，不同的基构成不同的坐标系。
+
+
+
+向量A在B上的投影长度：lAlcos(a)
+
+假设B向量为单位向量时：lBl=1，$BB^T = 1$
+
+故向量A在B上的投影长度改写为：lAlcos(a) = lAllBlcos(a) = A·B
+
+
+
+基变换：根据公式 lAlcos(a) = lAllBlcos(a) = A·B，可以把向量A 的坐标变换到 新基 向量B 的坐标系中。
+
+
+
+示例：
+
+![image-20250331165148261](https://raw.githubusercontent.com/zhanghongyang42/images/main/image-20250331165148261.png)
+
+![image-20250331165004267](https://raw.githubusercontent.com/zhanghongyang42/images/main/image-20250331165004267.png)
+
+m为样本数，n为特征数，k为新基数量，z是新的坐标，w是特征矩阵，也就是新的坐标系的矩阵。
+
+
+
+#### 推导过程
+
+**找坐标系问题** 转化为 **求方差最大问题** 转化为 **求协方差矩阵的特征值和特征向量**。
+
+
+
+降维思路就是找到一个新的坐标系，使得 数据点在这个坐标系的每个坐标轴上，都保留最大的信息。
+
+坐标轴要正交，保证每个坐标轴保留的信息不重复。
+
+
+
+引入专业知识 基变换，来表述坐标系的变换：
+
+PCA降维，就是通过找到一个特征矩阵（坐标系变换的矩阵），使得变换后，新基在尽可能多的数据点周围，即所有数据在新基上每个单位向量上的投影坐标的 方差最大。
+
+*特征矩阵的的向量要正交，特征矩阵的向量是单位向量。*
+
+
+
+求方差最大过程：
+
+1.数据去中心化(将数据平移到坐标轴中心，数据整体相对位置不变)，方便后续计算。
+
+2.投影方差:
+		m为样本数，n为原特征个数，k为需要降维的特征个数。
+
+​		$x^i$= $[x^i_1,x^i_2]^T$  为第i组数据，用列向量表示。$x^i_j$表示第i组样本的第j个特征的值。
+
+​		$u$= $[^i_1,u^i_2]^T$  为投影向量，并且$uu^T = 1$
+
+​		$d_i = |x^i||u|cos = (x^i)^Tu$    为向量$x^i$在向量u的投影
 
 
 
 
+![image-20250331174722155](https://raw.githubusercontent.com/zhanghongyang42/images/main/image-20250331174722155.png)
+
+通过上面的公式变换，将求最大方差 转化为了 求协方差矩阵的形式
+
+通过拉格朗日乘除法，将求最大方差 转化为了 求协方差矩阵的特征值和特征向量
+
+![image-20250331180315097](https://raw.githubusercontent.com/zhanghongyang42/images/main/image-20250331180315097.png)
 
 
 
+#### 计算步骤
 
 
 
-### PCA
+1. **数据标准化**：将数据集中的每个特征进行标准化处理，使其均值为0，方差为1，以消除不同特征之间的量纲差异。
 
-主成分分析法
+   
+
+2. **计算协方差矩阵**：对标准化后的数据计算协方差矩阵。
+
+   
+
+3. **计算特征值和特征向量**：对协方差矩阵进行特征值分解，得到特征值和对应的特征向量。
+
+   ​										特征向量代表新的坐标轴方向，特征值表示数据在这些方向上的方差大小。
+
+   
+
+4. **选择主要特征向量**：将特征值从大到小排序，选择前k个最大的特征值对应的特征向量，作为新的特征空间的基。
+
+   
+
+5. **转换数据**：将原始数据投影到选定的k个特征向量构成的新特征空间中，得到降维后的数据表示。
+
+
+
+#### 主成分数量
+
+计算方差贡献率大于95%或者99%：前 k 个特征向量所对应的特征值 / 所有特征值的和
+
+
+
+### PCA代码
 
 ```python
-#保证数据进行了无量纲化处理
+#保证数据进行了标准化处理
+
 from sklearn.decomposition import PCA
-
-#参数n_components为主成分数目
 PCA(n_components=2).fit_transform(iris.data)
+
+# 确定主成分数量
+explained_variance_ratio = pca.explained_variance_ratio_
+cumulative_explained_variance = np.cumsum(explained_variance_ratio)
+threshold = 0.95  # 设定累积方差贡献率的阈值，例如95%
+num_components = np.argmax(cumulative_explained_variance >= threshold) + 1
+print(f"需要保留的主成分数量: {num_components}")
 ```
-
-
-
-### LDA
-
-线性判别分析法
-
-```python
-from sklearn.lda import LDA
-LDA(n_components=2).fit_transform(iris.data, iris.target)
-```
-
-
-
-
 
 
 
@@ -3495,9 +3642,7 @@ LDA(n_components=2).fit_transform(iris.data, iris.target)
 
 
 
-
-
-# 模型评价
+# 模型评价（待）
 
 模型指标评价包括业务（在线）指标评价，和离线指标（分类，回归，聚类等）评价。模型衰减也是一个评价维度。
 
@@ -3842,10 +3987,6 @@ davies_bouldin_score = metrics.davies_bouldin_score(X, label_pred)
 所以模型评估时，把数据多次划分为训练集和测试集。平均多次测试集的结果，可以使模型评估更准确。
 
 ![img](picture/v2-7f165ecd9559047847a04342df538ea0_r.jpg)
-
-
-
-小数据集上交叉验证取得的效果较好。
 
 
 
@@ -4461,32 +4602,6 @@ print("Your submission was successfully saved!")
 
 
 
-# 算法优化
-
-
-
-### 数据不平衡
-
-正负样本比过大，一般正负样本比大于1：10，即认为不均衡，会导致模型过多学习数据量更大的样本特征，导致预测不准确。
-
-
-
-##### 数据采样
-
-采样方法分为  过采样 和  欠采样。数据足够的话，优先欠采样。
-
-详见特征工程-数据采样
-
-
-
-##### 模型调整
-
-一般只有分类才有存在正负样本比不平衡的情况。
-
-一些分类模型自带的参数可以调整分类权重。
-
-
-
 # 工程优化
 
 ### 内存优化
@@ -4564,492 +4679,5 @@ for i,j in zip(bb.dtypes,bb.dtypes.index):
 del df,aa,bb
 df = pd.read_csv('train.csv',dtype=dic)
 ```
-
-
-
-# 其他模型
-
-## 关键词提取
-
-关键词提取技术，包括有监督（部分打标签，训练，人工把预测正确关键词的数据再加入训练集，继续训练），无监督（TF-IDF、TextRank、基于主题）
-
-
-
-### bag of words
-
-词袋模型：把每篇文档出现的单词按照顺序排列，统计出每个token（一般就是一个单词）的出现次数，组成向量。
-
-词袋模型忽略了词序语法近义等，每个词相互独立存在。
-
-```python
-corpus = [
-    'This is the first document.',
-    'This is the second second document.',
-    'And the third one.',
-    'Is this the first document?',
-]
-
-from sklearn.feature_extraction.text import CountVectorizer
-vectorizer = CountVectorizer()
-
-X = vectorizer.fit_transform(corpus)
-
-print(vectorizer.get_feature_names())
-print(X.toarray())
-
-#ngram_range默认1个词为1个token，可以设置1，2，3个词都是1个token，这样可以把词的顺序信息训练进来
-bigram_vectorizer = CountVectorizer(ngram_range=(1, 3))
-```
-
-
-
-### TF-IDF
-
-关键词提取技术的一种，通过计算每个词在文章中出现的频率*该词的重要性来确定关键词。
-
-
-
-TF-IDF = TF*IDF
-
-![20180806135836378](picture/20180806135836378.png)
-
-![20180806140023860](picture/20180806140023860.png)
-
-
-
-明显看出，词袋模型的结果可以直接用来计算TF-IDF，所以实现为CountVectorizer+TfidfTransformer   或者  TfidfVectorizer。
-
-
-
-##### TfidfTransformer
-
-```python
-from sklearn.feature_extraction.text import TfidfTransformer
-transformer = TfidfTransformer(smooth_idf=False)
-
-#词袋模型结果，一个列表代表一篇文章，共有6篇文章，每一列代表一个词，3代表第一个词在第一篇文章里出现了3次。
-counts = [[3, 0, 1],
-          [2, 0, 0],
-          [3, 0, 0],
-          [4, 0, 0],
-          [3, 2, 0],
-          [3, 0, 2]]
-
-#每一篇文章的每一个词都可以计算出tf-idf，最后把结果归一化
-tfidf = transformer.fit_transform(counts)
-print(tfidf.toarray())
-```
-
-
-
-##### TfidfVectorizer
-
-CountVectorizer  +  TfidfTransformer
-
-```python
-from sklearn.feature_extraction.text import TfidfVectorizer
-vectorizer = TfidfVectorizer()
-vectorizer.fit_transform(corpus)
-```
-
-
-
-### TextRank
-
-##### PageRank
-
-TextRank 的思想来源于 PageRank。
-
-PageRank：https://www.cnblogs.com/jpcflyer/p/11180263.html
-
-```python
-#PageRank 过程
-给每个点（网页）初始权重。
-写出转移矩阵（转移矩阵的理论基础就是那个pr计算公式，按改良公式进行转移得保证总量不变）。
-根据转移矩阵更新初始权重。直至权重不再变化。
-不再变化的权重就是那个网页的pr值（pr值不再变化的时候就完全反应了累积过后的【转移关系(用户意愿)】）。
-```
-
-
-
-##### TextRank
-
-https://www.cnblogs.com/motohq/p/11887420.html
-
-TextRank 与 PageRank相比，不同是每个词语之间都是双向边，且边有权重（双向边代表在同一句子中出现，边的权重代表出现次数或者相似度）。表现为 转移矩阵或者说理论公式不同。
-
- 
-
-本质是用词之间的关系找出关键词。所以 这种计算方法一定要过滤掉停用词。
-
-```python
-#TextRank 过程
-1.把文本 按 句子进行分割
-2.对每个句子进行 分词和词性标注处理，并过滤掉停用词，只保留指定词性的单词。
-3.按PageRank 过程 构建图，计算出每个词的权重。
-4.选topN 作为 候选关键词。
-5.看候选关键词是否在文本中可以组成关键词组，把关键词组也作为关键词。
-```
-
-```python
-import pandas as pd
-import numpy as np
-from textrank4zh import TextRank4Keyword, TextRank4Sentence
-
-# 关键词抽取
-def keywords_extraction(text):
-    tr4w = TextRank4Keyword(allow_speech_tags=['n', 'nr', 'nrfg', 'ns', 'nt', 'nz'])
-    # allow_speech_tags   --词性列表，用于过滤某些词性的词
-    tr4w.analyze(text=text, window=2, lower=True, vertex_source='all_filters', edge_source='no_stop_words',
-                 pagerank_config={'alpha': 0.85, })
-    # text    --  文本内容，字符串
-    # window  --  窗口大小，int，用来构造单词之间的边。默认值为2
-    # lower   --  是否将英文文本转换为小写，默认值为False
-    # vertex_source  -- 选择使用words_no_filter, words_no_stop_words, words_all_filters中的哪一个来构造pagerank对应的图中的节点
-    #                -- 默认值为`'all_filters'`，可选值为`'no_filter', 'no_stop_words', 'all_filters'
-    # edge_source  -- 选择使用words_no_filter, words_no_stop_words, words_all_filters中的哪一个来构造pagerank对应的图中的节点之间的边
-    #              -- 默认值为`'no_stop_words'`，可选值为`'no_filter', 'no_stop_words', 'all_filters'`。边的构造要结合`window`参数
-
-    # pagerank_config  -- pagerank算法参数配置，阻尼系数为0.85
-    keywords = tr4w.get_keywords(num=6, word_min_len=2)
-    # num           --  返回关键词数量
-    # word_min_len  --  词的最小长度，默认值为1
-    return keywords
-
-# 关键短语抽取
-def keyphrases_extraction(text):
-    tr4w = TextRank4Keyword()
-    tr4w.analyze(text=text, window=2, lower=True, vertex_source='all_filters', edge_source='no_stop_words',
-                 pagerank_config={'alpha': 0.85, })
-    keyphrases = tr4w.get_keyphrases(keywords_num=6, min_occur_num=1)
-    # keywords_num    --  抽取的关键词数量
-    # min_occur_num   --  关键短语在文中的最少出现次数
-    return keyphrases
-
-# 关键句抽取
-def keysentences_extraction(text):
-    tr4s = TextRank4Sentence()
-    tr4s.analyze(text, lower=True, source='all_filters')
-    # text    -- 文本内容，字符串
-    # lower   -- 是否将英文文本转换为小写，默认值为False
-    # source  -- 选择使用words_no_filter, words_no_stop_words, words_all_filters中的哪一个来生成句子之间的相似度。
-    # 		  -- 默认值为`'all_filters'`，可选值为`'no_filter', 'no_stop_words', 'all_filters'
-    # sim_func -- 指定计算句子相似度的函数
-
-    # 获取最重要的num个长度大于等于sentence_min_len的句子用来生成摘要
-    keysentences = tr4s.get_key_sentences(num=3, sentence_min_len=6)
-    return keysentences
-
-if __name__ == "__main__":
-    text = "来源：中国科学报本报讯（记者肖洁）又有一位中国科学家喜获小行星命名殊荣！4月19日下午，中国科学院国家天文台在京举行“周又元星”颁授仪式，" \
-           "我国天文学家、中国科学院院士周又元的弟子与后辈在欢声笑语中济济一堂。国家天文台党委书记、" \
-           "副台长赵刚在致辞一开始更是送上白居易的诗句：“令公桃李满天下，何须堂前更种花。”" \
-           "据介绍，这颗小行星由国家天文台施密特CCD小行星项目组于1997年9月26日发现于兴隆观测站，" \
-           "获得国际永久编号第120730号。2018年9月25日，经国家天文台申报，" \
-           "国际天文学联合会小天体联合会小天体命名委员会批准，国际天文学联合会《小行星通报》通知国际社会，" \
-           "正式将该小行星命名为“周又元星”。"
-   
-	# 关键词抽取
-    keywords =keywords_extraction(text)
-    print(keywords)
-
-    # 关键短语抽取
-    keyphrases =keyphrases_extraction(text)
-    print(keyphrases)
-
-    # 关键句抽取
-    keysentences =keysentences_extraction(text)
-    print(keysentences)
-```
-
-
-
-### 主题模型
-
-主题模型是生成模型。生成模型与判别模型的区别在于：判别模型直接计算出概率，生成模型比较各个可能的概率，选最大的。
-
-主题模型包括 LSA、pLSA、LDA、HDP、LDA2Vec。
-
-
-
-##### LSA
-
-https://zhuanlan.zhihu.com/p/46376672
-
-```python
-#LSA过程
-1.首先计算出 TF-IDF
-2.进行svd矩阵分解 特征向量
-3.利用余弦相似性找出相似文本
-```
-
-```python
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-#读数据
-from sklearn.datasets import fetch_20newsgroups
-dataset = fetch_20newsgroups(shuffle=True, random_state=1, remove=('headers', 'footers', 'quotes'))
-documents = dataset.data
-dataset.target_names
-
-#删除符号与短词
-news_df = pd.DataFrame({'document':documents})
-news_df['clean_doc'] = news_df['document'].str.replace("[^a-zA-Z#]", " ")
-news_df['clean_doc'] = news_df['clean_doc'].apply(lambda x: ' '.join([w for w in x.split() if len(w)>3]))
-news_df['clean_doc'] = news_df['clean_doc'].apply(lambda x: x.lower())
-
-#删除停用词
-from nltk.corpus import stopwords
-stop_words = stopwords.words('english')
-tokenized_doc = news_df['clean_doc'].apply(lambda x: x.split())
-tokenized_doc = tokenized_doc.apply(lambda x: [item for item in x if item not in stop_words])
-detokenized_doc = []
-for i in range(len(news_df)):
-    t = ' '.join(tokenized_doc[i])
-    detokenized_doc.append(t)
-news_df['clean_doc'] = detokenized_doc
-
-#TF-IDF
-from sklearn.feature_extraction.text import TfidfVectorizer
-vectorizer = TfidfVectorizer(stop_words='english',max_df = 0.5, max_features= 1000,smooth_idf=True)
-X = vectorizer.fit_transform(news_df['clean_doc'])
-
-# SVD
-from sklearn.decomposition import TruncatedSVD
-svd_model = TruncatedSVD(n_components=20, algorithm='randomized', n_iter=100, random_state=122)
-svd_model.fit(X)
-
-#主题排序
-terms = vectorizer.get_feature_names()
-for i, comp in enumerate(svd_model.components_):
-    terms_comp = zip(terms, comp)
-    sorted_terms = sorted(terms_comp, key= lambda x:x[1], reverse=True)[:7]
-    print("Topic "+str(i)+": ",end='')
-    for t in sorted_terms:
-        print(t[0],end=' ')
-    print(" ")
-```
-
-
-
-## 赋权法
-
-赋权法用于需要 确定权重系数的情况。分为主观赋权法和客观赋权法。
-
-熵权法 是客观赋权法的一种，层次分析法是主观赋权法的一种。
-
-
-
-### 熵权法
-
-熵权法 计算  **信息熵**  来确定各个变量  **权重**  ，之后通过**变量和权重**可以计算出该条样本的  **评分**，用于挑选样本。
-
-推导过程：https://www.zhihu.com/question/357680646/answer/943628631
-
-```python
-import pandas as pd
-import numpy as np
-import math
-from numpy import array
-
-df = pd.read_csv('aaa.csv')
-
-#该方法要求x全为数值型
-def cal_weight(x):
-    x = x.apply(lambda x: ((x - np.min(x)) / (np.max(x) - np.min(x))))
-    # 求k
-    rows = x.index.size  # 行
-    cols = x.columns.size  # 列
-
-    k = 1.0 / math.log(rows)
-
-    lnf = [[None] * cols for i in range(rows)]
-    # 矩阵计算--
-    # 信息熵
-    # p=array(p)
-    x = array(x)
-    lnf = [[None] * cols for i in range(rows)]
-    lnf = array(lnf)
-
-    for i in range(0, rows):
-        for j in range(0, cols):
-            if x[i][j] == 0:
-                lnfij = 0.0
-            else:
-                p = x[i][j] / x.sum(axis=0)[j]
-                lnfij = math.log(p) * p * (-k)
-            lnf[i][j] = lnfij
-    lnf = pd.DataFrame(lnf)
-    E = lnf
-
-    # 计算冗余度
-    d = 1 - E.sum(axis=0)
-    # 计算各指标的权重
-    w = [[None] * 1 for i in range(cols)]
-    for j in range(0, cols):
-        wj = d[j] / sum(d)
-        w[j] = wj
-        # 计算各样本的综合得分,用最原始的数据
-
-    w = pd.DataFrame(w)
-    return w
-
-w = cal_weight(df)
-w.index = df.columns
-w.columns = ['weight']
-
-df['score'] = 0
-for i in df.columns:
-    if i != 'score':
-        df['score'] = df['score'] + df[i]*w.loc[i,'weight']
-
-# w 是每个特征的权重，df['score'] 是每条数据的得分
-```
-
-
-
-### 层次分析法
-
-层次分析法本质上通过人的主观判断给变量不同的权重，然后再通过验证，最终确定权重。确定权重之后即可给每条数据打分。
-
-使用流程：https://blog.csdn.net/lengxiao1993/article/details/19575261
-
-```python
-import numpy as np
-import pandas as pd
-
-# # 需要人手动给出比较矩阵
-# compare_matrix = np.array([[1, 0.2, 0.33, 1],
-#                           [5, 1, 1.66, 5],
-#                           [3, 0.6, 1, 3],
-#                           [1, 0.2, 0.33, 1]])
-
-# # 一致性检验
-# def isConsist(F):
-#     n = np.shape(F)[0]
-#     a, b = np.linalg.eig(F)
-#     maxlam = a[0].real
-#     CI = (maxlam - n) / (n - 1)
-#     if CI < 0.1:
-#         return bool(1)
-#     else:
-#         return bool(0)
-# # 一致性检验异常
-# class isConsistError(Exception):
-#     def __init__(self, value):
-#         self.value = value
-
-#     def __str__(self):
-#         return repr(self.value)
-
-# if isConsist(compare_matrix) == False:
-#     raise isConsistError('一致性检验不通过')
-
-# # 根据相对矩阵，算出每一个影响因素的重要程度
-# def ReImpo(F):
-#     n = np.shape(F)[0]
-#     W = np.zeros([1, n])
-#     for i in range(n):
-#         t = 1
-#         for j in range(n):
-#             t = F[i, j] * t
-#         W[0, i] = t ** (1 / n)
-#     W = W / sum(W[0, :])  # 归一化 W=[0.874,2.467,0.464]
-#     return W.T
-# W = ReImpo(compare_matrix)
-
-
-# #此矩阵的每一行代表一个方案，每一列代表一个影响因素/此矩阵为方案层权重矩阵，大部分场景可以自动生成
-# df = pd.read_csv('entropy_weight.csv')
-
-# #归一化方案层权重矩阵
-# for i in df:
-#     df[i] = df[i]/sum(df[i])
-    
-    
-# score = np.dot(df,W)
-# score = pd.DataFrame(score)
-# print(score)
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

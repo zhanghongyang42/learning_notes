@@ -212,7 +212,7 @@ sns.kdeplot(df[col], label=str(col))
 
 #### 相关系数
 
-对协方差进行标准化后的指标，取值范围为 \([-1, 1]\)。计算公式为：
+对协方差进行标准化后的指标，取值范围为 $[-1, 1]$。计算公式为：
 $$
 \rho_{X,Y} = \frac{\text{Cov}(X, Y)}{\sigma_X \cdot \sigma_Y}
 $$
@@ -358,7 +358,7 @@ if (df[col].dtypes!='object') & (col!='Survived'):
 
 ##### imbalanced-learn
 
-![v2-c2446593bf7c85c73f3715904ee24957_b](picture/v2-c2446593bf7c85c73f3715904ee24957_b-1606381549945.jpg)
+![v2-c2446593bf7c85c73f3715904ee24957_b](https://raw.githubusercontent.com/zhanghongyang42/images/main/v2-c2446593bf7c85c73f3715904ee24957_b-1606381549945.jpg)
 
 
 
@@ -464,7 +464,7 @@ train_data.fillna(method='bfill', inplace=True) # 填充后一条数据的值，
 
 ###### SimpleImputer
 
-![1576119201911](picture/1576119201911-1603354042979.png)
+![1576119201911](https://raw.githubusercontent.com/zhanghongyang42/images/main/1576119201911-1603354042979.png)
 
 ```python
 from sklearn.impute import SimpleImputer
@@ -618,7 +618,7 @@ onehot.fit_transform(df)
 
 包括特征哈希和 TargetEncoder。
 
-![1575356771847](picture/1575356771847-1603441279224.png)
+![1575356771847](https://raw.githubusercontent.com/zhanghongyang42/images/main/1575356771847-1603441279224.png)
 
 
 
@@ -669,7 +669,7 @@ df = pd.concat([hashed_df, df.drop(columns=['col1'])], axis=1)
 
 编码为一个实际值介于 0 和 1 之间的特征，用 该值下目标变量的多个条件概率 （当 x 为一个值时y 有多大可能为0，1）来代替一个特征，适用于树模型。
 
-![img](picture/v2-ef3f363a83fd58142df1b101550d3ff8_720w.webp)
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/v2-ef3f363a83fd58142df1b101550d3ff8_720w.webp)
 
 ```python
 class ConditionalProbabilityEncoder:
@@ -972,7 +972,7 @@ print(df_new)
 
 x拔是期望，n是总数。
 
-![b360e15e91954d8a4cf7521a9190d888](picture/b360e15e91954d8a4cf7521a9190d888.svg)
+![b360e15e91954d8a4cf7521a9190d888](https://raw.githubusercontent.com/zhanghongyang42/images/main/b360e15e91954d8a4cf7521a9190d888.svg)
 
 
 
@@ -1268,7 +1268,7 @@ Linear Regression with One Variable
 
 线性回归的代价函数是平方误差代价函数。
 
-![image-20220727135152324](picture\image-20220727135152324.png)
+![image-20220727135152324](https://raw.githubusercontent.com/zhanghongyang42/images/main/image-20220727135152324.png)
 
 代价函数图像：一图是x和y的图，二图是w和 J 的图，三图是 w与b 和 J 的图。
 
@@ -1310,7 +1310,7 @@ w、b 为要计算的参数， α 为步长 。
 
 单变量线性回归的梯度下降公式如下
 
-![image-20221229151253984](C:\all\5machine_learning\picture\image-20221229151253984.png)
+![image-20221229151253984](https://raw.githubusercontent.com/zhanghongyang42/images/main/image-20221229151253984.png)
 
 
 
@@ -1328,7 +1328,7 @@ w、b 为要计算的参数， α 为步长 。
 
 如果代价函数没有一直下降，说明学习率α的选择有问题。
 
-![image-20220801172806650](C:\all\5machine_learning\picture\image-20220801172806650.png)
+![image-20220801172806650](https://raw.githubusercontent.com/zhanghongyang42/images/main/image-20220801172806650.png)
 
 
 
@@ -1389,7 +1389,7 @@ print(reg.coef_)
 
 ![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/1355387-20180726184054400-1134632155.png)
 
-![img](picture\1355387-20180726190653105-1761881987.png)
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/1355387-20180726190653105-1761881987.png)
 
 每一个轴对应特征x，不同颜色代表不同的分类/y。
 
@@ -1409,7 +1409,7 @@ print(reg.coef_)
 
 如果采用平方误差作为逻辑回归的代价函数，则代价函数不是凸函数，采用梯度下降求代价函数最小，会有很多的局部最小值作为干扰。
 
-![image-20220802155953402](C:\all\cs\软件大数据人工智能\8机器学习\picture\image-20220802155953402.png)
+![image-20220802155953402](https://raw.githubusercontent.com/zhanghongyang42/images/main/image-20220802155953402.png)
 
 
 
@@ -1431,7 +1431,7 @@ print(reg.coef_)
 
 ![image-20220802162258108](https://raw.githubusercontent.com/zhanghongyang42/images/main/image-20220802162258108.png)
 
-![image-20220802162124359](C:\all\cs\软件大数据人工智能\8机器学习\picture\image-20220802162124359.png)
+![image-20220802162124359](https://raw.githubusercontent.com/zhanghongyang42/images/main/image-20220802162124359.png)
 
 上面两图可以合并为交叉熵损失公式。
 
@@ -1581,7 +1581,7 @@ OvO算法的优点是每个模型只需要在一部分数据上进行训练，�
 
 一个事件有多个结果，如果这些结果相互独立，则此事件的信息熵为各个事件的不确定性之和，即每个独立事件发生概率的倒数之和，为了满足可加性，使用log
 
-![img](picture/clip_image002.gif)
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/clip_image002.gif)
 
 
 
@@ -1591,7 +1591,7 @@ OvO算法的优点是每个模型只需要在一部分数据上进行训练，�
 
 整体数据集的信息熵（I(parent)）一般是保持不变的，信息增益就是（I(parent)）- 当前节点的信息熵。
 
-​    ![img](picture/clip_image002-1642667703064.gif)
+​    ![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/clip_image002-1642667703064.gif)
 
 信息增益计算示例：
 
@@ -1627,7 +1627,7 @@ cart	二分类、多分类、回归
 
 - 每个叶节点代表一种分类结果。
 
-![img](picture/Wed, 14 Jun 2023 185520.jpeg)
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/Wed%2C%2014%20Jun%202023%20185520.jpeg)
 
 
 
@@ -1736,7 +1736,7 @@ C4.5的思路是将数据分成两部分，一部分是有特征值A的数据D1�
 
 算法先用已经构建好的完整决策树，对测试集进行预测，记录预测错误的样本数。
 
-![img](picture/v2-b59938e00ae27529e00ffa9a2a7c1c81_720w.webp)
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/v2-b59938e00ae27529e00ffa9a2a7c1c81_720w.webp)
 
 从最底层的叶节点开始，反向遍历决策树，在每个节点，合并一次叶子节点，然后重新预测测试集看测试集的预测性能有没有提升，有就剪枝——也就是合并叶子节点，没有就不合并。这种剪枝的方法显然计算开销太大了，数据量大的情况下压根没法用，而且明显容易过拟合测试集。
 
@@ -1783,7 +1783,7 @@ https://zhuanlan.zhihu.com/p/86679767
 
 ![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/1947150-20200527060046089-1867013542.png)
 
-![img](picture/1947150-20200527065831679-1635125971.png)
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/1947150-20200527065831679-1635125971.png)
 
 基尼系数也称为基尼不纯度。基尼系数越小，表示数据集越纯。直到纯到全部一样，就是叶子节点了。
 
@@ -1859,7 +1859,7 @@ N_t / N * (impurity - N_t_R / N_t * right_impurity - N_t_L / N_t * left_impurity
 
 举例：假设我们得到一个三个特征训练好的决策树如下：
 
-![img](picture/v2-1b94eaf45163212c25bc7f94314966bd_b.webp)
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/v2-1b94eaf45163212c25bc7f94314966bd_b.webp)
 
 特征重要性计算
 
@@ -1951,7 +1951,7 @@ Bootstrap 抽样方法：每个基学习器都会对训练集进行有放回抽�
 
 aggregating ：综合所有基学习器的预测值进行投票（硬投票）或计算平均概率（软投票）得到最终结果。
 
-![img](picture/v2-a0a3cb02f629f3db360fc68b4c2153c0_r.jpg)
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/v2-a0a3cb02f629f3db360fc68b4c2153c0_r.jpg)
 
 
 
@@ -1959,7 +1959,7 @@ aggregating ：综合所有基学习器的预测值进行投票（硬投票）�
 
 Boosting 训练过程为阶梯状，基模型的训练是有顺序的，每个基模型都会在前一个基模型学习的基础上进行学习，最终综合所有基模型的预测值产生最终的预测结果，用的比较多的综合方式为加权法。
 
-![img](picture/v2-3aab53d50ab65e11ad3c9e3decf895c2_r.jpg)
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/v2-3aab53d50ab65e11ad3c9e3decf895c2_r.jpg)
 
 
 
@@ -1967,7 +1967,7 @@ Boosting 训练过程为阶梯状，基模型的训练是有顺序的，每个�
 
 Stacking 是先用全部数据训练好基模型，然后每个基模型都对每个训练样本进行的预测，其预测值将作为训练样本的特征值，最终会得到新的训练样本，然后基于新的训练样本进行训练得到模型，然后得到最终预测结果。类似于Bagging，只是最后不是使用投票，而是模型预测。
 
-![img](picture/v2-f6787a16c23950d129a7927269d5352a_b.jpg)
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/v2-f6787a16c23950d129a7927269d5352a_b.jpg)
 
 
 
@@ -2228,7 +2228,7 @@ auc = roc_auc_score(y_test, y_pred)
 
 随机森林是由很多决策树（cart）构成的，不同决策树之间没有关联。
 
-![用通俗易懂的方式剖析随机森林-文章-SPSSPRO社区](picture/1830)
+
 
 **一句话介绍**：
 
@@ -2348,7 +2348,7 @@ AdaBoost（Adaptive Boosting，自适应增强），其自适应在于：前一�
 
 ##### 算法流程
 
-![img](picture/v2-5bc052f6288e0efbf0038e3e8e86bafc_r.jpg)
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/v2-5bc052f6288e0efbf0038e3e8e86bafc_r.jpg)
 
 步骤如下：初始化数据权重 -->  训练第一个分类器，结合权重计算最小错误率 --> 计算所有模型总最小错误率，计算正确数据与错误数据的比例 --> 利用计算正确数据与错误数据的比例更新数据权重 --> 循环。
 
@@ -2941,7 +2941,7 @@ multi_target_forest.fit(X, Y).predict(X)
 
 正则化之后使用梯度下降求目标函数最小值
 
-![image-20220815110534721](C:\all\cs\软件大数据人工智能\8机器学习\picture\image-20220815110534721.png)
+![image-20220815110534721](https://raw.githubusercontent.com/zhanghongyang42/images/main/image-20220815110534721.png)
 
 
 
@@ -3389,7 +3389,7 @@ Standardized Euclidean Distance：先将各个分量都“标准化”到均值�
 
 其中，x是修正过的x，s是标准差。
 
-![image-20230130174924032](C:\all\cs\软件大数据人工智能\8机器学习\picture\image-20230130174924032.png)
+![image-20230130174924032](https://raw.githubusercontent.com/zhanghongyang42/images/main/image-20230130174924032.png)
 
 
 
@@ -3546,13 +3546,13 @@ m为样本数，n为特征数，k为新基数量，z是新的坐标，w是特征
 
 **找坐标系问题** 转化为 **求方差最大问题** 转化为 **求协方差矩阵的特征值和特征向量**。
 
-
+------
 
 降维思路就是找到一个新的坐标系，使得 数据点在这个坐标系的每个坐标轴上，都保留最大的信息。
 
 坐标轴要正交，保证每个坐标轴保留的信息不重复。
 
-
+------
 
 引入专业知识 基变换，来表述坐标系的变换：
 
@@ -3560,7 +3560,7 @@ PCA降维，就是通过找到一个特征矩阵（坐标系变换的矩阵）�
 
 *特征矩阵的的向量要正交，特征矩阵的向量是单位向量。*
 
-
+------
 
 求方差最大过程：
 
@@ -3642,7 +3642,7 @@ print(f"需要保留的主成分数量: {num_components}")
 
 
 
-# 模型评价（待）
+# 模型评价
 
 模型指标评价包括业务（在线）指标评价，和离线指标（分类，回归，聚类等）评价。模型衰减也是一个评价维度。
 
@@ -3661,6 +3661,13 @@ print(f"需要保留的主成分数量: {num_components}")
 
 
 ##### confusion_matrix	
+
+| 实际\预测           | 预测正类 (Positive) | 预测负类 (Negative) |
+| ------------------- | ------------------- | ------------------- |
+| 实际正类 (Positive) | TP (True Positive)  | FN (False Negative) |
+| 实际负类 (Negative) | FP (False Positive) | TN (True Negative)  |
+
+
 
 ```python
 from sklearn.metrics import confusion_matrix
@@ -3705,6 +3712,10 @@ classification_report(y_true, y_pred)
 
 ##### accuracy
 
+$$
+Accuracy = \frac{TP + TN}{TP + TN + FP + FN}
+$$
+
 ```python
 from sklearn.metrics import accuracy_score
 
@@ -3716,21 +3727,9 @@ accuracy_score(y_true, y_pred)
 
 
 
-```python
-# 多标签accuracy,所有标签全部准确，才算是准确
-from sklearn.metrics import accuracy_score
+##### precision
 
-y_true = np.array([[0, 0], [1, 1],[1,1]])
-y_pred = np.ones((3, 2))
-
-accuracy_score(y_true,y_pred)
-```
-
-
-
-##### precision&recall&f1
-
-![3771db7af1e3b7bf33e15ec20d278f39](picture/3771db7af1e3b7bf33e15ec20d278f39.png)
+![3771db7af1e3b7bf33e15ec20d278f39](https://raw.githubusercontent.com/zhanghongyang42/images/main/3771db7af1e3b7bf33e15ec20d278f39.png)
 
 ```python
 from sklearn.metrics import precision_score
@@ -3743,7 +3742,9 @@ precision_score(y_true, y_pred,average='macro')
 
 
 
-![407341c3d4d055b857bb3229003b9daf](picture/407341c3d4d055b857bb3229003b9daf.png)
+##### recall
+
+![407341c3d4d055b857bb3229003b9daf](https://raw.githubusercontent.com/zhanghongyang42/images/main/407341c3d4d055b857bb3229003b9daf.png)
 
 ```python
 from sklearn.metrics import recall_score
@@ -3756,7 +3757,11 @@ recall_score(y_true, y_pred,average='macro')
 
 
 
-![b3edbb24837112f795a22e3574457416](picture/b3edbb24837112f795a22e3574457416.png)
+##### F1
+
+F1 的 β 为 1。
+
+![b3edbb24837112f795a22e3574457416](https://raw.githubusercontent.com/zhanghongyang42/images/main/b3edbb24837112f795a22e3574457416.png)
 
 ```python
 from sklearn.metrics import f1_score
@@ -3771,51 +3776,110 @@ fbeta_score(y_true, y_pred, beta=2)
 
 
 
+##### 精确率-召回率曲线
+
 ```python
 #计算出不同阈值下的精确率和召回率
 from sklearn.metrics import precision_recall_curve
 precision, recall, threshold = precision_recall_curve(y_true, y_scores)
+
+# 绘制精确率-召回率曲线
+plt.plot(recall, precision, marker='.')
+plt.xlabel('召回率')
+plt.ylabel('精确率')
+plt.title('精确率-召回率曲线')
+plt.show()
 ```
 
 
 
-最优模型阈值
+##### ROC曲线
+
+ROC（Receiver Operating Characteristic）曲线用于评估二分类模型的性能。横轴是不同阈值下的 **假阳性率 (FPR)**，纵轴是不同阈值下的 **真正例率 (TPR)**：
+$$
+TPR = \frac{TP}{TP + FN}
+$$
+
+$$
+FPR = \frac{FP}{FP + TN}
+$$
+
+
+
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/v2-66cc29b9e9f951de48c214d9ec34f4c5_1440w.jpg)
+
+一个好的分类器应当在尽可能低的 FPR 下获得较高的 TPR，从而使 ROC 曲线尽可能靠近左上角（理想点）。此时 AUC 也是尽可能接近 1的。
+
+
+
+------
+
+ROC曲线 绘制
 
 ```python
-# 可以通过调节阈值调整 召回率和准确率
-y_prob = pd.DataFrame(clf.predict_proba(X_test)[:,1])
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, auc
 
-from sklearn.metrics import classification_report
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import roc_auc_score
+# 假设 y_true 是真实标签，y_scores 是预测概率
+y_true = np.array([0, 0, 1, 1, 1, 0, 1, 0, 0, 1])
+y_scores = np.array([0.1, 0.4, 0.35, 0.8, 0.7, 0.2, 0.9, 0.6, 0.3, 0.5])
 
-for i in range(9):
-    i = (i+1)/10
-    y_pred = y_prob.applymap(lambda x: 1 if x>=i else 0)
-    print(classification_report(y_test, y_pred))
-    print(confusion_matrix(y_test, y_pred))
-    print(roc_auc_score(y_test, y_pred))
-    print('---------------------------------------------------')
+# 计算 FPR, TPR 和 阈值
+fpr, tpr, thresholds = roc_curve(y_true, y_scores)
+
+# 计算 AUC（曲线下的面积）
+roc_auc = auc(fpr, tpr)
+
+# 绘制 ROC 曲线
+plt.figure(figsize=(6, 6))
+plt.plot(fpr, tpr, color='blue', lw=2, label=f'ROC 曲线 (AUC = {roc_auc:.2f})')
+plt.plot([0, 1], [0, 1], color='gray', linestyle='--')  # 随机猜测的参考线
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('假阳性率 (False Positive Rate)')
+plt.ylabel('真正例率 (True Positive Rate)')
+plt.title('ROC 曲线')
+plt.legend(loc="lower right")
+plt.show()
 ```
 
 
 
-##### ROC曲线下AUC面积
+##### AUC
 
-auc的解释有两种，一种是代表模型的分类性能，一种可以解释为排序中，把两条数据排序正确的概率。
+**几何角度定义**：AUC（曲线下面积，Area Under the Curve）是 ROC 曲线下的面积，使用积分计算。
 
+**概率角度定义**：AUC 是随机选一个正样本和一个负样本，正样本预测值大于负样本预测值的概率（即排序正确的比例）。
 
-
-auc的理论值为0.5-1。auc的合理数值跟场景有关，如图像分类的场景中，auc需要达到0.95，但是在电商点击率与转化率预估中，可能达到0.7-0.8即可。
-
-max auc 由数据决定，一种极端情况，两条数据，特征一样，label不同。不管怎么做，auc也只能0.5。
-
-`可以通过预测 训练集数据来大致看一下max auc。https://zhuanlan.zhihu.com/p/24217322`
+可通过计算，这两个定义会得到同一个AUC。
 
 
+
+- **AUC ≈ 1.0** → 说明分类效果非常好。
+- **AUC ≈ 0.5** → 说明模型和随机猜测没区别（无信息）。
+- **AUC < 0.5** → 说明模型可能预测方向反了（需要调整概率阈值）。
+
+
+
+**阈值无关性**：
+ROC 曲线和 AUC 是阈值无关的评价指标。与依赖特定阈值（如准确率、精确率）的指标不同，ROC 曲线综合了所有可能的决策阈值，评估了模型的整体性能。
+
+**平衡正负样本**：
+无论正负样本数量是否平衡，ROC 曲线和 AUC 都能反映模型对正负样本的区分能力，这在不平衡数据场景下尤其重要。
+
+**排序能力的量化**：
+由于 AUC 可以解释为正样本得分高于负样本得分的概率，因此它不仅评估了分类决策，还定量反映了模型输出分数的排序效果。
+
+
+
+tips：max AUC 由数据决定，一种极端情况，两条数据，特征一样，label不同，AUC 最大是 0.5。可以通过预测 训练集数据来大致看一下max AUC。
+
+------
+
+AUC 计算代码
 
 ```python
-#AUC得分计算
 import numpy as np
 from sklearn.metrics import roc_auc_score
 
@@ -3825,23 +3889,13 @@ y_scores = np.array([0.1, 0.4, 0.35, 0.8])
 roc_auc_score(y_true, y_scores)
 ```
 
+
+
 ```python
-#ROC曲线绘制
-import numpy as np
-from sklearn.metrics import roc_curve
+#计算多分类AUC得分
 
-y = np.array([1, 1, 2, 2])
-scores = np.array([0.1, 0.4, 0.35, 0.8])
-
-fpr, tpr, thresholds = roc_curve(y, scores, pos_label=2)
-
-plt.plot(fpr, tpr, lw=2, label='ROC curve (area = {:.2f})'.format(auc))
-plt.plot([0,1], [0, 1], 'r--')
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
-plt.title('Receiver operating characteristic example')
-plt.legend(loc='lower right')
-plt.show()
+roc_auc_score(y_true, y_score, multi_class='ovr')  # 一对多
+roc_auc_score(y_true, y_score, multi_class='ovo')  # 一对一
 ```
 
 
@@ -3852,33 +3906,15 @@ plt.show()
 
 
 
-##### 最大误差
+##### MSE
 
-```python
-from sklearn.metrics import max_error
-
-y_true = [3, 2, 7, 1]
-y_pred = [9, 2, 7, 1]
-
-max_error(y_true, y_pred)
-```
+均方误差，Mean Squared Error
 
 
+$$
+MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+$$
 
-##### 平均绝对误差 (MAE) 
-
-```python
-from sklearn.metrics import mean_absolute_error
-
-mean_absolute_error(y_true, y_pred)
-
-#多标签
-mean_absolute_error(y_true, y_pred)
-```
-
-
-
-##### 均方误差（MSE）
 
 ```python
 from sklearn.metrics import mean_squared_error
@@ -3891,21 +3927,99 @@ mean_squared_error(y_true, y_pred)
 
 
 
-##### 均方误差对数
+##### RMSE（常用）
 
-MSLE
+均方根误差，Root Mean Squared Error
+
+
+$$
+RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
+$$
+
 
 ```python
-from sklearn.metrics import mean_squared_log_error
+from sklearn.metrics import mean_squared_error, r2_score
 
-mean_squared_log_error(y_true, y_pred)  
+def rmse(y_true, y_pred):
+    return np.sqrt(mean_squared_error(y_true, y_pred))
+
+print("RMSE:", rmse(y_true, y_pred))
 ```
 
 
 
-##### 中位绝对误差
+##### MAE
 
-MedAE
+Mean Absolute Error，平均绝对误差
+
+
+$$
+MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
+$$
+
+
+```python
+from sklearn.metrics import mean_absolute_error
+
+mean_absolute_error(y_true, y_pred)
+
+#多标签
+mean_absolute_error(y_true, y_pred)
+```
+
+
+
+##### MAPE（常用）
+
+平均绝对百分比误差，Mean Absolute Percentage Error
+
+注意，真实值接近0时，这个指标不太可用。
+
+
+$$
+MAPE = \frac{1}{n} \sum_{i=1}^{n} \left| \frac{y_i - \hat{y}_i}{y_i} \right| \times 100\%
+$$
+
+
+```python
+def mape(y_true, y_pred):
+    y_true, y_pred = np.array(y_true), np.array(y_pred)
+    return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+
+print("MAPE:", mape(y_true, y_pred))
+```
+
+
+
+##### R²（常用）
+
+决定系数，R-squared
+
+R² 越接近 1，说明模型越好地拟合了数据。R² = 0，模型没有任何预测能力。
+
+
+$$
+R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
+$$
+
+
+```python
+from sklearn.metrics import r2_score
+
+r2_score(y_true, y_pred)
+```
+
+
+
+##### MedAE
+
+中位数绝对误差，Median Absolute Error
+
+
+$$
+MedAE = median(|y₁ - ŷ₁|, |y₂ - ŷ₂|, ..., |yₙ - ŷₙ|)
+$$
+
 
 ```python
 from sklearn.metrics import median_absolute_error
@@ -3916,20 +4030,6 @@ median_absolute_error(y_true, y_pred)
 
 
 ### 聚类指标
-
-##### 兰德指数
-
-```python
-# 已知真实标签时 对聚类算法的评价
-# 真实数据一般没有，作为聚类模型选择过程中共识索引(Consensus Index)的一个构建模块是非常有用的
-
-from sklearn.silhouette_score import adjusted_rand_score
-
-labels_true = [0, 0, 0, 1, 1, 1]
-labels_pred = [0, 0, 1, 1, 2, 2]
-
-adjusted_rand_score(labels_true, labels_pred)  
-```
 
 
 
@@ -3952,16 +4052,72 @@ silhouette_score(X, labels, metric='euclidean')
 
 
 
-##### 其他指标
+##### 调整兰德系数
+
+Adjusted Rand Index, ARI
+
+已知真实标签时 对聚类算法的评价。
+
+
+
+兰德系数是把聚类当成分类求 acc，调整兰德系数是在这个基础上，进行了调整。
+
+------
+
+
+
+真实标签和聚类结果的列联表如下：
+
+|            | $V_1 $    | $V_2 $    | ...  | $V_c $    | **行和** |
+| ---------- | --------- | --------- | ---- | --------- | -------- |
+| **$U_1$**  | $n_{11} $ | $n_{12} $ | ...  | $n_{1c} $ | $a_1 $   |
+| **$U_2 $** | $n_{21} $ | $n_{22} $ | ...  | $n_{2c} $ | $a_2 $   |
+| ...        | ...       | ...       | ...  | ...       | ...      |
+| **$U_r $** | $n_{r1} $ | $n_{r2} $ | ...  | $n_{rc} $ | $a_r $   |
+| **列和**   | $b_1 $    | $b_2 $    | ...  | $b_c $    | $n $     |
+
+- $U = \{U_1, U_2, \ldots, U_r\} $：真实标签的分组（共 $ r $个组）。
+
+- $V = \{V_1, V_2, \ldots, V_c\} $：聚类结果的分组（共 $ c $个组）。
+
+- n ：总样本数。
+
+- $n_{ij} $：同时属于真实组 $U_i$和聚类组$ V_j $的样本数（即$U_i \cap V_j$的样本数）。
+
+  
+
+ARI 的计算公式为：
+
+$$
+ARI = \frac{ \sum{ij} \binom{n{ij}}{2} - \frac{ \sum_i \binom{a_i}{2} \sum_j \binom{b_j}{2} }{ \binom{n}{2} } }{ \frac{ \sum_i \binom{a_i}{2} + \sum_j \binom{b_j}{2} }{2} - \frac{ \sum_i \binom{a_i}{2} \sum_j \binom{b_j}{2} }{ \binom{n}{2} } }
+$$
+
+- $\binom{n_{ij}}{2} = \frac{n_{ij}(n_{ij}-1)}{2} $表示在真实组 $ U_i $和聚类组 $ V_j $中一致的对数。
+- $\binom{a_i}{2} = \frac{a_i(a_i-1)}{2} $表示真实组 $ U_i $中所有可能的样本对数。
+- $\binom{b_j}{2} = \frac{b_j(b_j-1)}{2} $表示聚类组 $ V_j $中所有可能的样本对数。
+- $\binom{n}{2} = \frac{n(n-1)}{2} $表示所有样本的总对数。
+
+------
+
+
 
 ```python
-#CH指标
-ch = metrics.calinski_harabaz_score(X, label_pred)
-print(ch)
+from sklearn.metrics import adjusted_rand_score
 
-#DB指数
-davies_bouldin_score = metrics.davies_bouldin_score(X, label_pred)
+# 示例：真实标签和聚类结果
+true_labels = [0, 0, 1, 1, 1]
+cluster_labels = [0, 0, 1, 2, 2]
+
+ari = adjusted_rand_score(true_labels, cluster_labels)
+print("ARI:", ari)
 ```
+
+
+
+- ARI 的取值范围为 [-1, 1]：
+  - **ARI = 1**：聚类结果与真实标签完全一致。
+  - **ARI = 0**：聚类结果与随机分配相当。
+  - **ARI < 0**：聚类结果比随机分配更差（通常不会出现，除非聚类算法刻意反向聚类）。
 
 
 
@@ -3986,7 +4142,7 @@ davies_bouldin_score = metrics.davies_bouldin_score(X, label_pred)
 
 所以模型评估时，把数据多次划分为训练集和测试集。平均多次测试集的结果，可以使模型评估更准确。
 
-![img](picture/v2-7f165ecd9559047847a04342df538ea0_r.jpg)
+![img](https://raw.githubusercontent.com/zhanghongyang42/images/main/v2-7f165ecd9559047847a04342df538ea0_r.jpg)
 
 
 
@@ -4679,5 +4835,41 @@ for i,j in zip(bb.dtypes,bb.dtypes.index):
 del df,aa,bb
 df = pd.read_csv('train.csv',dtype=dic)
 ```
+
+
+
+# 模型优化
+
+### 最优模型阈值
+
+```python
+# 可以通过调节阈值调整 召回率和准确率
+y_prob = pd.DataFrame(clf.predict_proba(X_test)[:,1])
+
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import roc_auc_score
+
+for i in range(9):
+    i = (i+1)/10
+    y_pred = y_prob.applymap(lambda x: 1 if x>=i else 0)
+    print(classification_report(y_test, y_pred))
+    print(confusion_matrix(y_test, y_pred))
+    print(roc_auc_score(y_test, y_pred))
+    print('---------------------------------------------------')
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

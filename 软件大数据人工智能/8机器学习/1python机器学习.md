@@ -3642,6 +3642,78 @@ print(f"需要保留的主成分数量: {num_components}")
 
 
 
+# 增量学习
+
+模型在小批量数据上进行训练，适用于无法一次性加载到内存的大型数据集
+
+```python
+import numpy as np
+from sklearn.naive_bayes import MultinomialNB
+
+# 假设我们有一个数据生成器，每次产生一批数据
+def data_generator():
+    # 示例数据：每批次生成5个样本，每个样本有100个特征
+    rng = np.random.RandomState(1)
+    while True:
+        X_batch = rng.randint(5, size=(5, 100))
+        y_batch = rng.randint(2, size=(5,))
+        yield X_batch, y_batch
+
+# 初始化分类器
+clf = MultinomialNB()
+
+# 获取数据生成器
+generator = data_generator()
+
+# 定义所有可能的类别
+classes = np.array([0, 1])
+
+# 增量训练模型
+for _ in range(10):  # 假设我们有10个批次
+    X_batch, y_batch = next(generator)
+    clf.partial_fit(X_batch, y_batch, classes=classes)
+
+# 在新数据上进行预测
+X_new = np.random.randint(5, size=(1, 100))
+prediction = clf.predict(X_new)
+print("Prediction:", prediction)
+```
+
+
+
+sklearn 中支持增量学习的算法：
+
+```
+        Classification
+                sklearn.naive_bayes.MultinomialNB
+                sklearn.naive_bayes.BernoulliNB
+                sklearn.linear_model.Perceptron
+                sklearn.linear_model.SGDClassifier
+                sklearn.linear_model.PassiveAggressiveClassifier
+                sklearn.neural_network.MLPClassifier
+
+        Regression
+                sklearn.linear_model.SGDRegressor
+                sklearn.linear_model.PassiveAggressiveRegressor
+                sklearn.neural_network.MLPRegressor
+
+        Clustering
+                sklearn.cluster.MiniBatchKMeans
+                sklearn.cluster.Birch
+
+        Decomposition / feature Extraction
+                sklearn.decomposition.MiniBatchDictionaryLearning
+                sklearn.decomposition.IncrementalPCA
+                sklearn.decomposition.LatentDirichletAllocation
+
+        Preprocessing
+                sklearn.preprocessing.StandardScaler
+                sklearn.preprocessing.MinMaxScaler
+                sklearn.preprocessing.MaxAbsScaler
+```
+
+
+
 # 模型评价
 
 模型指标评价包括业务（在线）指标评价，和离线指标（分类，回归，聚类等）评价。模型衰减也是一个评价维度。
@@ -3912,7 +3984,7 @@ roc_auc_score(y_true, y_score, multi_class='ovo')  # 一对一
 
 
 $$
-MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
 $$
 
 
@@ -3977,7 +4049,7 @@ mean_absolute_error(y_true, y_pred)
 
 
 $$
-MAPE = \frac{1}{n} \sum_{i=1}^{n} \left| \frac{y_i - \hat{y}_i}{y_i} \right| \times 100\%
+MAPE = \frac{1}{n} \sum_{i=1}^{n} \left| \frac{y_i - \hat{y}_i}{y_i} \right| \times 100\%
 $$
 
 
@@ -4575,6 +4647,120 @@ from sklearn.externals import joblib
 joblib.dump(clf, 'filename.pkl')
 clf = joblib.load('filename.pkl')
 ```
+
+
+
+### PMML
+
+官网：https://github.com/jpmml?page=1
+
+比较重要的项目包括：[sklearn2pmml](https://github.com/jpmml/sklearn2pmml)、[jpmml-sklearn](https://github.com/jpmml/jpmml-sklearn)、[sklearn2pmml-plugin](https://github.com/jpmml/sklearn2pmml-plugin)
+
+介绍：https://www.cnblogs.com/pinard/p/9220199.html
+
+
+
+#### 简介
+
+pmml 是一种跨多语言平台（包括java和python）的序列化格式。可以用来跨语言环境部署模型。
+
+但是这种格式对模型来说有一定的精度损失。
+
+pmml本质上就是将模型序列化成的XML文件。
+
+实际上线时，上百维的结构化数据可以使用pmml这种方式上线。
+
+
+
+#### 使用
+
+pmml 一般使用方法如下，直接构建好一个pipeline（见上一节pipeline），然后转换成pmml_pipeline,直接保存。
+
+```python
+# 保存
+from sklearn2pmml import make_pmml_pipeline,sklearn2pmml
+
+pipeline_pmml = make_pmml_pipeline(pipeline)
+sklearn2pmml(pipeline_pmml, "./model.pmml", with_repr = True, debug = True)
+
+#加载，一般用java
+```
+
+
+
+pipeline能支持的transformer很多，详见上一节 pipeline。
+
+但是pmml支持的transformer不多，详见 https://github.com/jpmml/jpmml-sklearn#supported-packages 。
+
+
+
+还有pmml关于一些非sklearn标准库使用的方法示例：https://github.com/jpmml/sklearn2pmml#documentation ，如改变数据域防止java调用报错。
+
+更多pmml自己支持的方法，详见源码：https://github.com/jpmml/sklearn2pmml/tree/master/sklearn2pmml
+
+
+
+#### 自定义
+
+若是sklearn标准库中没有，pmml也没有补充的数据处理方法，只能自己自定义。
+
+自定义方法如下https://github.com/jpmml/sklearn2pmml-plugin
+
+
+
+自定义原理是：
+
+sklearn2pmml 中的每一个类，在java中都有一个对应的类去实现操作。
+
+通过把python中类对象 名称和参数 序列化到 xml 文件中，java 去解析 xml 文件。
+
+如果想要自定义新的transformer，只能按照上述方法，在python端和java端分别实现一个进行xml文件的序列化和解析。
+
+任何在java端没有对应名称的方法，都无法被解析。
+
+
+
+# 模型部署
+
+https://www.zhihu.com/question/37426733/answer/786472048
+
+https://my.oschina.net/taogang/blog/2222908
+
+
+
+# 模型上线
+
+### 线上指标
+
+模型线上指标 根据场景的不同有所不同。
+
+如搜索排序场景下，可以使用 点击数/曝光数 计算点击率来作为线上指标。也可以用其他转化率作为线上指标。
+
+也可以使用 点击位置，翻页次数等个性化的指标作为辅助。
+
+
+
+线上最主要的指标可能和模型训练的 label 是一致的。
+
+线上指标最好可以实时监控。
+
+
+
+### 上线标准
+
+首个模型第一次上线：模型满足 离线指标 如 auc 大于 0.8 后可以上线。
+
+同一个模型，为了防止时间衰减进行更新：
+
+​	1.简单的，可以过一段时间重新训练一个新模型进行更新
+
+​	2.复杂的，可以进行线上指标监控，当线上指标下降的时候，训练一个新模型，看离线AUC，在一定范围内可以上线。
+
+不同的模型，可以在达到离线指标后，进行ABtest上线，看线上指标。
+
+
+
+模型离线指标与在线指标变化不一致：https://zhuanlan.zhihu.com/p/443208809
 
 
 

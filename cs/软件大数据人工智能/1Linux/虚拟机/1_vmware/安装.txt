@@ -1,0 +1,11 @@
+﻿
+许可证
+ZF3R0-FHED2-M80TY-8QYGC-NPKYF 
+YF390-0HF8P-M81RQ-2DXQE-M2UT6
+ZF71R-DMX85-08DQY-8YMNC-PPHV8 
+
+
+开机不启动 VMware
+运行 services.msc
+5个vmware 右键 属性 手动
+设置后，通过vmware.bat脚本启动，脚本中的路径要编写对

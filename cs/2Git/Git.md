@@ -1,32 +1,24 @@
-项目中使用git构建分支流四种方式：	https://www.cnblogs.com/quartz/p/12814064.html
+教程：https://liaoxuefeng.com/books/git/introduction/index.html
 
-教程：https://www.liaoxuefeng.com/wiki/896043488029600/900388704535136
+项目中使用Git四种流程：https://www.cnblogs.com/quartz/p/12814064.html
 
 
 
 # 安装
 
-### Git
-
-https://zhuanlan.zhihu.com/p/242540359
+Git：https://zhuanlan.zhihu.com/p/242540359
 
 
 
-### GUI
-
-https://zhuanlan.zhihu.com/p/666417763
+GUI：https://zhuanlan.zhihu.com/p/666417763
 
 
 
-
-
-# 概念
+# 简介
 
 ![1543302039138](https://raw.githubusercontent.com/zhanghongyang42/images/main/1543302039138.png)
 
 
-
-### 本地仓库
 
 本地仓库：狭义的本地仓库特指版本库
 
@@ -42,54 +34,13 @@ https://zhuanlan.zhihu.com/p/666417763
 
 
 
-创建本地仓库
-
-git bash   ：     git   init
+忽略文件：忽略文件不保存到版本库。在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去
 
 
 
-### 忽略文件
+# 分支
 
-忽略文件不保存到版本库
-
-在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去
-
-```
-*.a
-!lib.a
-/TODO
-build/
-```
-
-
-
-# 文件保存
-
-**工作区文件**
-
-将文件放到工作区即可
-
-
-
-**工作区添加暂存区**
-
-git add readme.txt
-
-
-
-**暂存区提交本地仓库**
-
-git commit -m “注释”
-
-
-
-**查看状态**
-
-git status
-
-
-
-# 分支操作
+### 分支作用
 
 1. 并行开发：使用分支可以让团队成员同时在不同的分支上开发功能或修复bug，而不会相互干扰或影响彼此的工作。
 2. 功能开发：分支可以用于开发新功能。当一个新功能需要多次提交才能完成时，使用分支可以保持主分支的代码稳定，而新功能开发不会影响其他人的工作。
@@ -98,6 +49,8 @@ git status
 5. 修复bug：当代码中出现问题时，你可以创建一个分支来修复bug，而不会影响主分支的稳定性。修复完成后，可以将修复的代码合并回主分支。
 
 
+
+### 分支操作
 
 1. 查看分支：
 
@@ -185,51 +138,19 @@ git status
 
 
 
-# 工作区暂存
-
-工作到一半，需要切换到其他分支工作，但是还不想commit即可暂存
-
-
-
-1.暂存
-
-git bash   ：     git stash
-
-暂存后即可切换分支，保存工作区未提交内容，不会删除工作区内容
-
-
-
-2.查看
-
-git bash   ：     git stash list
-
-
-
-3.恢复
-
-git bash   ：     git stash pop
-
-
-
 # 版本回退
 
-### 工作区修改回退
+### 工作区回退
 
-工作区回退到版本库版本：做了修改，还没add，回到版本初始状态。
+命令：git checkout -- <文件名>
 
-git checkout --文件名称
+若文件已修改但尚未 git add，该命令可将其还原为版本库中最新提交的内容。
 
-
-
-工作区回退到暂存区版本：add到暂存区了，又做了修改，想恢复暂存区文件。
-
-git checkout --文件名称
+若文件已 git add，之后又进行了修改，该命令可将其回退至暂存区状态，撤销后续修改。
 
 
 
-### 暂存区修改回退
-
-清空暂存区某些文件
+### 清空暂存区
 
 git reset HEAD file
 
@@ -436,25 +357,83 @@ git reset --hard 版本号
 
 # IDEA集成
 
-### 集成Git和远程仓库
-
-安装好IntelliJ IDEA后，如果Git安装在默认路径下，那么idea会自动找到git的位置，如果更改了Git的安装位置则需要手动配置下Git的路径。
-
-选择File→Settings打开设置窗口，找到Version Control下的git选项：
-
-![1543399359546](https://raw.githubusercontent.com/zhanghongyang42/images/main/1543399359546.png)
-
-选择git的安装目录后可以点击“Test”按钮测试是否正确配置。
-
-![1543399391526](https://raw.githubusercontent.com/zhanghongyang42/images/main/1543399391526.png)
-
-![1550563988719](https://raw.githubusercontent.com/zhanghongyang42/images/main/1550563988719.png)
+### 本地推送项目到远程仓库
 
 
 
-### 创建本地仓库
+##### 准备工作
 
-https://juejin.cn/post/7303804980342325285
+在开始之前，确保你已经安装了IntelliJ IDEA，并且你有一个GitHub账号。如果你还没有GitHub账号，你可以在[GitHub官网](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com)上注册一个。
+
+
+
+##### 第一步：在IDEA中配置Git
+
+1. 打开IntelliJ IDEA。
+2. 点击 `File` > `Settings` (对于macOS是 `IntelliJ IDEA` > `Preferences`)。
+3. 在设置窗口中选择 `Version Control` > `Git`。
+4. 确认`Git`已正确安装，并且IDEA可以定位到`git.exe`的路径（对于macOS或Linux系统是`git`）。
+5. 如果需要，点击 `Test` 按钮来验证设置是否正确。
+6. 点击 `OK` 保存并关闭设置窗口。
+
+
+
+##### 第二步：在IDEA中配置GitHub账户
+
+1. 在设置窗口中，选择 `Version Control` > `GitHub`。
+2. 点击 `Add account` 或 `+` 符号添加你的GitHub账户。
+3. 输入你的GitHub用户名和密码，或者使用token方式登录。
+4. 如果启用了双因素认证，你需要提供一个个人访问令牌。
+5. 点击 `OK` 来保存账户信息。
+
+
+
+##### 第三步：将本地项目变为Git仓库
+
+1. 打开你想要推送到GitHub的项目。
+2. 点击 `VCS` 菜单并选择 `Import into Version Control` > `Create Git Repository`。
+3. 在弹出的窗口中选择项目根目录，点击 `OK` 创建Git仓库。
+
+
+
+##### 第四步：添加文件到Git仓库
+
+1. 在项目窗口中，右键点击你想要添加到仓库的文件或文件夹。
+2. 选择 `Git` > `Add`。
+3. 被选中的文件现在会显示为绿色，表示它们已被添加到Git仓库。
+
+
+
+##### 第五步：提交更改到本地仓库
+
+1. 点击 `VCS` > `Commit` (或使用快捷键 `Ctrl+K` / `Cmd+K`)。
+2. 在弹出的窗口中，填写提交信息。
+3. 确认你要提交的文件，然后点击 `Commit` 按钮。
+
+
+
+##### 第六步：创建GitHub仓库
+
+1. 点击 `VCS` > `Import into Version Control` > `Share Project on GitHub`。
+2. 在弹出的窗口中，输入你的GitHub仓库名称和描述。
+3. 点击 `Share`。
+
+
+
+##### 第七步：推送更改到GitHub
+
+1. IntelliJ IDEA将自动推送你的代码到新创建的GitHub仓库。
+2. 如果需要手动推送，可以点击 `VCS` > `Git` > `Push` (或使用快捷键 `Ctrl+Shift+K` / `Cmd+Shift+K`)。
+3. 在弹出的窗口中，确认推送的分支和目标，然后点击 `Push`。
+
+
+
+##### 注意事项
+
+- 在推送之前，请确保你的GitHub仓库是空的，没有初始化的README文件或其他文件。
+- 如果遇到任何认证问题，请回到第二步，确保你的GitHub账户配置正确。
+
+通过以上步骤，你应该能够成功地将一个本地项目推送到GitHub。如果在操作过程中遇到问题，你可以查看IntelliJ IDEA的帮助文档，或者在GitHub的帮助页面上寻找解决方案。
 
 
 
@@ -474,48 +453,10 @@ https://juejin.cn/post/7303804980342325285
 
 
 
-
-
 # Github使用
 
 - 在GitHub上，可以任意Fork开源仓库；
 - 自己拥有Fork后的仓库的读写权限；
 - 可以clone，然后修改Fork后的仓库，然后push修改
 - 可以把自己修改过的Fork后的仓库 pull request给官方仓库来贡献代码。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

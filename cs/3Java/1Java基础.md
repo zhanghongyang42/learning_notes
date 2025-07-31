@@ -1,9 +1,3 @@
-Java路线视频：https://zhuanlan.zhihu.com/p/115890802
-
-https://github.com/AobingJava/JavaFamily
-
-
-
 # JDK 安装
 
 JDK目录 software\java\jdk1.8
